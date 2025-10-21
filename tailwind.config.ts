@@ -90,6 +90,10 @@ export default {
         "glow": {
           "0%, 100%": { filter: "drop-shadow(0 0 20px hsl(38 92% 50% / 0.4))" },
           "50%": { filter: "drop-shadow(0 0 30px hsl(38 92% 50% / 0.6))" }
+        },
+        "scale": {
+          "0%, 100%": { transform: "scale(1.05)" },
+          "50%": { transform: "scale(1.1)" }
         }
       },
       animation: {
