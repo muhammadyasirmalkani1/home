@@ -1,14 +1,22 @@
 import { useEffect, useRef } from "react";
+import reactLogo from "@/assets/react-logo.png";
+import nodejsLogo from "@/assets/nodejs-logo.png";
+import nextjsLogo from "@/assets/nextjs-logo.png";
+import typescriptLogo from "@/assets/typescript-logo.png";
+import tailwindLogo from "@/assets/tailwind-logo.png";
+import gitLogo from "@/assets/git-logo.png";
+import githubLogo from "@/assets/github-logo.png";
+import viteLogo from "@/assets/vite-logo.png";
 
 const techStack = [
-  { name: "React", color: "text-[#61DAFB]" },
-  { name: "Node.js", color: "text-[#339933]" },
-  { name: "Next.js", color: "text-foreground" },
-  { name: "TypeScript", color: "text-[#3178C6]" },
-  { name: "Tailwind", color: "text-[#06B6D4]" },
-  { name: "Git", color: "text-[#F05032]" },
-  { name: "GitHub", color: "text-foreground" },
-  { name: "Vite", color: "text-[#646CFF]" },
+  { name: "React", logo: reactLogo },
+  { name: "Node.js", logo: nodejsLogo },
+  { name: "Next.js", logo: nextjsLogo },
+  { name: "TypeScript", logo: typescriptLogo },
+  { name: "Tailwind", logo: tailwindLogo },
+  { name: "Git", logo: gitLogo },
+  { name: "GitHub", logo: githubLogo },
+  { name: "Vite", logo: viteLogo },
 ];
 
 const TechStackSlider = () => {
@@ -22,7 +30,7 @@ const TechStackSlider = () => {
     let scrollPosition = 0;
 
     const scroll = () => {
-      scrollPosition += 0.5;
+      scrollPosition += 1.5; // Faster speed
       if (scrollPosition >= scrollContainer.scrollWidth / 2) {
         scrollPosition = 0;
       }
@@ -36,10 +44,10 @@ const TechStackSlider = () => {
   }, []);
 
   return (
-    <section className="py-16 bg-background/50 backdrop-blur-sm border-y border-[hsl(var(--glass-border))]">
+    <section className="py-20 bg-background/30 backdrop-blur-md border-y border-[hsl(var(--glass-border))]">
       <div className="container mx-auto px-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-12 text-foreground">
-          Built With Modern Technology
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 bg-gradient-gold bg-clip-text text-transparent">
+          Powered By Modern Technology
         </h2>
         
         <div 
@@ -47,19 +55,21 @@ const TechStackSlider = () => {
           className="overflow-hidden relative"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          <div className="flex gap-12 w-max">
+          <div className="flex gap-16 w-max py-4">
             {/* Duplicate items for infinite scroll */}
-            {[...techStack, ...techStack, ...techStack].map((tech, index) => (
+            {[...techStack, ...techStack, ...techStack, ...techStack].map((tech, index) => (
               <div
                 key={`${tech.name}-${index}`}
-                className="flex flex-col items-center justify-center min-w-[120px] group cursor-pointer"
+                className="flex flex-col items-center justify-center min-w-[140px] group cursor-pointer"
               >
-                <div className="w-16 h-16 rounded-full bg-card border border-border flex items-center justify-center mb-3 group-hover:scale-110 group-hover:shadow-glow transition-all duration-300">
-                  <span className={`text-3xl font-bold ${tech.color}`}>
-                    {tech.name.charAt(0)}
-                  </span>
+                <div className="w-20 h-20 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 flex items-center justify-center mb-4 p-4 group-hover:scale-110 group-hover:shadow-glow group-hover:border-primary/50 transition-all duration-300">
+                  <img 
+                    src={tech.logo} 
+                    alt={tech.name}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
-                <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                <span className="text-sm font-semibold text-muted-foreground group-hover:text-primary transition-colors">
                   {tech.name}
                 </span>
               </div>
