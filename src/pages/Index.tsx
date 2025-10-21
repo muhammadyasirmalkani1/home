@@ -6,14 +6,16 @@ import StatsSection from "@/components/StatsSection";
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen bg-background overflow-x-hidden">
       <VideoBackground />
-      <Navigation />
-      <main>
-        <HeroSection />
-        <StatsSection />
-        <FeaturedProperties />
-      </main>
+      <div className="relative z-10">
+        <Navigation />
+        <main>
+          <HeroSection />
+          <StatsSection />
+          <FeaturedProperties />
+        </main>
+      </div>
     </div>
   );
 };
