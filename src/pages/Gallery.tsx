@@ -1,308 +1,274 @@
-import { useState } from "react";
-import Navigation from "@/components/Navigation";
-import { Play, Search, Filter, Grid3X3, List } from "lucide-react";
+"use client";
 
-type Video = {
-  id: number;
-  title: string;
-  description: string;
-  thumbnail: string;
-  duration: string;
-  category: string;
-  views: string;
-  uploadDate: string;
-  videoUrl: string;
-};
+import { Play, X } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from "react";
 
 const Gallery = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
 
-  const videos: Video[] = [
+  // Inject 3D background animation CSS
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `
+      /* === 3D Background Animation === */
+      .background-3d {
+        position: fixed;
+        inset: 0;
+        overflow: hidden;
+        z-index: -1;
+        background: radial-gradient(circle at 50% 50%, #0a0a0f 0%, #050507 100%);
+        perspective: 1000px;
+      }
+
+      .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.6;
+        animation: float 20s infinite ease-in-out alternate;
+        transform-style: preserve-3d;
+      }
+
+      .orb:nth-child(1) {
+        width: 600px;
+        height: 600px;
+        top: -100px;
+        left: -200px;
+        background: radial-gradient(circle, rgba(124,58,237,0.6) 0%, rgba(6,182,212,0.3) 100%);
+        animation-delay: 0s;
+      }
+
+      .orb:nth-child(2) {
+        width: 500px;
+        height: 500px;
+        bottom: -150px;
+        right: -100px;
+        background: radial-gradient(circle, rgba(236,72,153,0.4) 0%, rgba(59,130,246,0.3) 100%);
+        animation-delay: 2s;
+      }
+
+      .orb:nth-child(3) {
+        width: 700px;
+        height: 700px;
+        top: 30%;
+        left: 40%;
+        background: radial-gradient(circle, rgba(34,211,238,0.4) 0%, rgba(16,185,129,0.3) 100%);
+        animation-delay: 4s;
+      }
+
+      @keyframes float {
+        0% { transform: translate3d(0px, 0px, 0px) rotate(0deg); }
+        50% { transform: translate3d(40px, -40px, 80px) rotate(180deg); }
+        100% { transform: translate3d(-60px, 60px, -80px) rotate(360deg); }
+      }
+
+      .gradient-text {
+        background: linear-gradient(90deg, #7C3AED, #06B6D4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
+
+  const videoSteps = [
     {
       id: 1,
-      title: "Modern Web Development",
-      description: "Building responsive web applications with React and Next.js",
-      thumbnail: "bg-gradient-to-br from-purple-500 to-purple-700",
-      duration: "12:34",
-      category: "web",
-      views: "24K",
-      uploadDate: "2024-01-15",
-      href: "/Videos/Business.mp4"
+      title: "Step 1: Introduction & Overview",
+      description: "Get started with the basics and understand the fundamentals",
+      thumbnail: "/img/DevFort.app.gif",
+      videoUrl: "/Videos/business.mp4",
+      duration: "5:30",
+      category: "Beginner",
     },
     {
       id: 2,
-      title: "Mobile App Design",
-      description: "Creating beautiful mobile interfaces with modern design principles",
-      thumbnail: "bg-gradient-to-br from-blue-500 to-blue-700",
-      duration: "08:21",
-      category: "design",
-      views: "18K",
-      uploadDate: "2024-01-12",
-      videoUrl: "/public/Videos/Business.mp4"
+      title: "Step 2: Setup & Configuration",
+      description: "Learn how to set up your environment and configure settings",
+      thumbnail: "/img/DevFort.app.gif",
+      videoUrl: "https://www.youtube.com/embed/i5PPRjiAxU8?si=5d60aiNG_khoMKzz",
+      duration: "8:45",
+      category: "Beginner",
     },
     {
       id: 3,
-      title: "Cloud Architecture",
-      description: "Scalable cloud solutions and infrastructure design",
-      thumbnail: "bg-gradient-to-br from-green-500 to-green-700",
-      duration: "15:42",
-      category: "cloud",
-      views: "32K",
-      uploadDate: "2024-01-10",
-      videoUrl: "https://www.youtube.com/embed/3IVCeyrFch4?si=uHKOuuDdVqu-szvc"
+      title: "Step 3: Core Concepts",
+      description: "Master the essential concepts and techniques",
+      thumbnail: "/img/DevFort.app.gif",
+      videoUrl: "https://www.youtube.com/embed/_k0gSkyxhr8?si=DOe3M9n_S1HPPcC1",
+      duration: "12:20",
+      category: "Intermediate",
     },
     {
       id: 4,
-      title: "UI/UX Principles",
-      description: "Essential user experience design patterns and best practices",
-      thumbnail: "bg-gradient-to-br from-red-500 to-red-700",
-      duration: "10:15",
-      category: "design",
-      views: "28K",
-      uploadDate: "2024-01-08",
-      videoUrl: "/videos/ui-ux-principles"
+      title: "Step 4: Advanced Features",
+      description: "Explore advanced features and best practices",
+      thumbnail: "/img/loading-screen.png",
+      videoUrl: "https://www.youtube.com/embed/GWrJZhZqFwQ?si=jVD9tREYOktU0Wyv",
+      duration: "15:10",
+      category: "Advanced",
     },
     {
       id: 5,
-      title: "DevOps Pipeline",
-      description: "Automated deployment and continuous integration workflows",
-      thumbnail: "bg-gradient-to-br from-yellow-500 to-yellow-700",
-      duration: "14:33",
-      category: "devops",
-      views: "21K",
-      uploadDate: "2024-01-05",
-      videoUrl: "/videos/devops-pipeline"
+      title: "Step 5: Real-world Examples",
+      description: "Apply your knowledge with practical examples",
+      thumbnail: "/img/loading-screen.png",
+      videoUrl: "https://www.youtube.com/embed/3IVCeyrFch4?si=uHKOuuDdVqu-szvc",
+      duration: "18:30",
+      category: "Advanced",
     },
     {
       id: 6,
-      title: "AI Integration",
-      description: "Implementing machine learning in modern applications",
-      thumbnail: "bg-gradient-to-br from-indigo-500 to-indigo-700",
-      duration: "18:09",
-      category: "ai",
-      views: "45K",
-      uploadDate: "2024-01-03",
-      videoUrl: "/videos/ai-integration"
+      title: "Step 6: Final Project",
+      description: "Build a complete project from start to finish",
+      thumbnail: "/img/loading-screen.png",
+      videoUrl: "https://www.youtube.com/embed/3IVCeyrFch4?si=uHKOuuDdVqu-szvc",
+      duration: "25:45",
+      category: "Expert",
     },
-    {
-      id: 7,
-      title: "Database Optimization",
-      description: "Advanced techniques for database performance and scaling",
-      thumbnail: "bg-gradient-to-br from-pink-500 to-pink-700",
-      duration: "11:27",
-      category: "database",
-      views: "16K",
-      uploadDate: "2024-01-01",
-      videoUrl: "/videos/database-optimization"
-    },
-    {
-      id: 8,
-      title: "Security Best Practices",
-      description: "Modern web application security and vulnerability prevention",
-      thumbnail: "bg-gradient-to-br from-orange-500 to-orange-700",
-      duration: "13:45",
-      category: "security",
-      views: "29K",
-      uploadDate: "2023-12-28",
-      videoUrl: "/videos/security-practices"
-    },
-    {
-      id: 9,
-      title: "Microservices Architecture",
-      description: "Building scalable systems with microservices patterns",
-      thumbnail: "bg-gradient-to-br from-teal-500 to-teal-700",
-      duration: "16:52",
-      category: "architecture",
-      views: "37K",
-      uploadDate: "2023-12-25",
-      videoUrl: "/videos/microservices"
+  ];
+
+  const getCategoryColor = (category: string) => {
+    switch (category) {
+      case "Beginner":
+        return "bg-blue-500/20 text-blue-400 hover:bg-blue-500/30";
+      case "Intermediate":
+        return "bg-green-500/20 text-green-400 hover:bg-green-500/30";
+      case "Advanced":
+        return "bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30";
+      case "Expert":
+        return "bg-red-500/20 text-red-400 hover:bg-red-500/30";
+      default:
+        return "bg-muted text-muted-foreground";
     }
-  ];
-
-  const categories = [
-    { id: "all", name: "All Categories" },
-    { id: "web", name: "Web Development" },
-    { id: "design", name: "Design" },
-    { id: "cloud", name: "Cloud" },
-    { id: "devops", name: "DevOps" },
-    { id: "ai", name: "AI/ML" },
-    { id: "database", name: "Database" },
-    { id: "security", name: "Security" },
-    { id: "architecture", name: "Architecture" }
-  ];
-
-  const filteredVideos = videos.filter(video => {
-    const matchesSearch = video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         video.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || video.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
-
-  const handleVideoClick = (video: Video) => {
-    setSelectedVideo(video);
-    // For demo, we'll just log the click. In real app, you'd navigate or show modal
-    console.log("Playing video:", video.title);
-    // You can use: router.push(video.videoUrl) for navigation
-    // Or set up a modal: setIsModalOpen(true)
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <main className="container mx-auto px-6 pt-24 pb-12">
-        <div className="max-w-7xl mx-auto">
-          {/* Header Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold text-foreground mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Video Gallery
+    <div className="relative min-h-screen overflow-hidden text-white">
+      {/* 3D Animated Background */}
+      <div className="background-3d">
+        <div className="orb" />
+        <div className="orb" />
+        <div className="orb" />
+      </div>
+
+      <div className="relative z-10 py-20">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-16 space-y-4">
+            <h1 className="text-5xl md:text-6xl font-bold">
+              <span className="gradient-text">Video Gallery</span>
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Explore our collection of tutorials, demos, and project showcases
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Follow our step-by-step video tutorials to master every aspect
             </p>
           </div>
 
-          {/* Controls Section */}
-          <div className="flex flex-col lg:flex-row gap-4 mb-8 items-center justify-between">
-            {/* Search Bar */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search videos..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-foreground"
-              />
-            </div>
-
-            {/* Category Filter */}
-            <div className="flex items-center gap-4">
-              <Filter className="w-5 h-5 text-muted-foreground" />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="bg-card border border-border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-foreground"
-              >
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* View Toggle */}
-            <div className="flex items-center gap-2 border border-border rounded-lg p-1">
-              <button
-                onClick={() => setViewMode("grid")}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === "grid" 
-                    ? "bg-primary text-primary-foreground" 
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <Grid3X3 className="w-5 h-5" />
-              </button>
-              <button
-                onClick={() => setViewMode("list")}
-                className={`p-2 rounded-md transition-colors ${
-                  viewMode === "list" 
-                    ? "bg-primary text-primary-foreground" 
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <List className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Results Count */}
-          <div className="mb-6">
-            <p className="text-muted-foreground">
-              Showing {filteredVideos.length} of {videos.length} videos
-            </p>
-          </div>
-
-          {/* Video Grid/List */}
-          <div className={
-            viewMode === "grid" 
-              ? "grid md:grid-cols-2 lg:grid-cols-3 gap-6"
-              : "flex flex-col gap-4"
-          }>
-            {filteredVideos.map((video) => (
-              <div
+          {/* Video Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {videoSteps.map((video) => (
+              <Card
                 key={video.id}
-                onClick={() => handleVideoClick(video)}
-                className={`
-                  group relative bg-card border border-border rounded-xl overflow-hidden 
-                  hover:shadow-2xl hover:shadow-primary/10 transition-all duration-300 
-                  cursor-pointer transform hover:-translate-y-1
-                  ${viewMode === "list" ? "flex gap-4 p-4" : ""}
-                `}
+                className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden bg-black/40 backdrop-blur-md border border-white/10"
+                onClick={() => video.videoUrl && setSelectedVideo(video.videoUrl)}
               >
-                {/* Thumbnail */}
-                <div className={`
-                  relative ${viewMode === "list" ? "w-48 flex-shrink-0" : "aspect-video"}
-                  ${video.thumbnail}
-                `}>
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                  
-                  {/* Play Button */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-background/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                      <Play className="w-8 h-8 text-primary ml-1" />
+                <CardContent className="p-0">
+                  {/* Thumbnail */}
+                  <div className="relative aspect-video overflow-hidden bg-muted">
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full bg-purple-600/90 group-hover:bg-purple-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                        <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-3 right-3 bg-black/80 px-2 py-1 rounded text-xs font-medium">
+                      {video.duration}
                     </div>
                   </div>
 
-                  {/* Duration Badge */}
-                  <div className="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded-md">
-                    {video.duration}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className={`${viewMode === "list" ? "flex-1" : "p-5"}`}>
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                  {/* Info */}
+                  <div className="p-6 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <Badge className={getCategoryColor(video.category)}>
+                        {video.category}
+                      </Badge>
+                      <span className="text-sm text-gray-400">
+                        Video {video.id}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold group-hover:text-purple-400 transition-colors">
                       {video.title}
                     </h3>
+                    <p className="text-gray-400 text-sm leading-relaxed">
+                      {video.description}
+                    </p>
                   </div>
-                  
-                  <p className="text-muted-foreground text-sm mb-3 line-clamp-2">
-                    {video.description}
-                  </p>
-
-                  {/* Meta Information */}
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="bg-primary/10 text-primary px-2 py-1 rounded-full capitalize">
-                      {categories.find(cat => cat.id === video.category)?.name.replace("Categories", "").trim()}
-                    </span>
-                    <span>{video.views} views</span>
-                    <span>{new Date(video.uploadDate).toLocaleDateString()}</span>
-                  </div>
-                </div>
-              </div>
+                </CardContent>
+              </Card>
             ))}
           </div>
 
-          {/* Empty State */}
-          {filteredVideos.length === 0 && (
-            <div className="text-center py-12">
-              <div className="w-24 h-24 mx-auto mb-4 bg-muted rounded-full flex items-center justify-center">
-                <Search className="w-10 h-10 text-muted-foreground" />
+          {/* Learning Path */}
+          <div className="mt-20 p-8 glass-card rounded-lg text-center">
+            <h2 className="text-3xl font-bold mb-6 gradient-text">
+              Your Learning Path
+            </h2>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+              <Badge className="bg-blue-500/20 text-blue-400">Beginner</Badge>
+              <div className="hidden md:block w-12 h-0.5 bg-gradient-to-r from-blue-400 to-green-400" />
+              <Badge className="bg-green-500/20 text-green-400">Intermediate</Badge>
+              <div className="hidden md:block w-12 h-0.5 bg-gradient-to-r from-green-400 to-yellow-400" />
+              <Badge className="bg-yellow-500/20 text-yellow-400">Advanced</Badge>
+              <div className="hidden md:block w-12 h-0.5 bg-gradient-to-r from-yellow-400 to-red-400" />
+              <Badge className="bg-red-500/20 text-red-400">Expert</Badge>
+            </div>
+          </div>
+
+          {/* Video Modal */}
+          {selectedVideo && (
+            <div
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+              onClick={() => setSelectedVideo(null)}
+            >
+              <div
+                className="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  onClick={() => setSelectedVideo(null)}
+                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/70 hover:bg-black/90 flex items-center justify-center transition"
+                >
+                  <X className="w-5 h-5 text-white" />
+                </button>
+                <iframe
+                  width="100%"
+                  height="100%"
+                  src={selectedVideo}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="w-full h-full"
+                />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">No videos found</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your search or filter criteria
-              </p>
             </div>
           )}
         </div>
-      </main>
+      </div>
     </div>
   );
 };
