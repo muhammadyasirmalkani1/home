@@ -56,7 +56,7 @@ const FeaturedProperties = () => {
           {properties.map((property, index) => (
             <Card 
               key={property.id} 
-              className="group overflow-hidden bg-card/80 backdrop-blur-sm border-border hover:border-primary transition-all duration-500 hover:shadow-card hover:-translate-y-2 animate-scale-in"
+              className="group overflow-hidden bg-card/10 backdrop-blur-sm border-border hover:border-primary transition-all duration-500 hover:shadow-card hover:-translate-y-2 animate-scale-in"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <div className="relative overflow-hidden">
