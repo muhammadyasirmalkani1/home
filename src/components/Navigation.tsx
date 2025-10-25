@@ -1,85 +1,44 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import {
   Home,
   User,
   Code,
   Briefcase,
-  GraduationCap,
-  Video,
-  DollarSign,
+  BookOpen,
+  Image,
+  Tag,
   Mail,
-  Menu,
   X,
+  Menu,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
-type NavItem = {
-  name: string;
-  path: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-};
+/**
+ * Modern responsive navigation with a left sidebar for md+ and a slide-over drawer for mobile.
+ *
+ * - On md+ screens: persistent vertical sidebar on the left
+ * - On small screens: top bar with a hamburger button that opens a slide-over sidebar
+ *
+ * Accessibility:
+ * - ESC closes the mobile drawer
+ * - clicking the overlay closes the drawer
+ * - aria attributes for the drawer button and region
+ */
 
-const navItems: NavItem[] = [
-  { name: "Home", path: "/", icon: Home },
-  { name: "About", path: "/about", icon: User },
-  { name: "Skills", path: "/skills", icon: Code },
-  { name: "Experience", path: "/experience", icon: Briefcase },
-  { name: "Projects", path: "/projects", icon: Briefcase },
-  { name: "Education", path: "/education", icon: GraduationCap },
-  { name: "Gallery", path: "/gallery", icon: Video },
-  { name: "Pricing", path: "/pricing", icon: DollarSign },
-  { name: "Contact", path: "/contact", icon: Mail },
+const navItems = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/about", label: "About", icon: User },
+  { href: "/skills", label: "Skills", icon: Code },
+  { href: "/experience", label: "Experience", icon: Briefcase },
+  { href: "/education", label: "Education", icon: BookOpen },
+  { href: "/gallery", label: "Gallery", icon: Image },
+  { href: "/pricing", label: "Pricing", icon: Tag },
 ];
 
-const Navigation = () => {
+const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
   const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement>(null);
-
-  // Handle scroll effect for navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Close on Escape and lock body scroll when open
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSidebarOpen(false);
-    };
-    
-    document.addEventListener("keydown", handleKeyDown);
-    
-    // Lock body scroll when sidebar is open
-    if (sidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
-    };
-  }, [sidebarOpen]);
-
-  // Close when clicking outside sidebar
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (!sidebarOpen) return;
-      if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-        setSidebarOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [sidebarOpen]);
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -89,184 +48,85 @@ const Navigation = () => {
   };
 
   return (
-    <>
-      <nav className={cn(
-        "fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-all duration-300",
-        isScrolled 
-          ? "bg-background/95 border-border/50 shadow-lg" 
-          : "bg-background/80 border-border/30"
-      )}>
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <Link
-                to="/"
-                className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent hover:scale-105 transition-transform duration-200"
-                onClick={() => setSidebarOpen(false)}
-              >
-                Portfolio
-              </Link>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const active = isActive(item.path);
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={cn(
-                      "px-4 py-2 rounded-xl transition-all duration-300 flex items-center gap-2 group relative",
-                      active 
-                        ? "text-white bg-gradient-to-r from-blue-600 to-cyan-500 shadow-lg shadow-blue-500/25" 
-                        : "text-foreground/80 hover:text-foreground hover:bg-white/5"
-                    )}
-                  >
-                    <Icon className="w-4 h-4" />
-                    <span className="font-medium">{item.name}</span>
-                    
-                    {/* Animated underline for active state */}
-                    {!active && (
-                      <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-blue-600 to-cyan-500 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                    )}
-                  </Link>
-                );
-              })}
-            </div>
-
-            {/* Mobile hamburger */}
-            <div className="md:hidden flex items-center">
-              <button
-                onClick={() => setSidebarOpen(true)}
-                aria-label="Open menu"
-                aria-expanded={sidebarOpen}
-                className="p-2 rounded-xl hover:bg-white/10 transition-all duration-300 text-foreground/80 hover:text-foreground"
-              >
-                <Menu className="w-5 h-5" />
-              </button>
-            </div>
+    <div className="flex flex-col h-full">
+      <div className="px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/25">
+            <Home className="w-5 h-5 text-white" />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+              PORTFOLIO
+            </span>
+            <span className="text-xs text-foreground/60 -mt-1">
+              Developer
+            </span>
           </div>
         </div>
+      </div>
+
+      <nav className="px-2 py-4 space-y-1 overflow-auto">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const active = isActive(item.href);
+          return (
+            <Link
+              key={item.href}
+              to={item.href}
+              onClick={onNavigate}
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
+                active
+                  ? "text-white bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25"
+                  : "text-foreground/80 hover:text-foreground hover:bg-accent/50"
+              }`}
+            >
+              <Icon className={`w-5 h-5 transition-transform duration-300 ${
+                active ? "scale-110" : "group-hover:scale-110"
+              }`} />
+              <span className="text-sm font-medium">{item.label}</span>
+              
+              {/* Active indicator */}
+              {active && (
+                <div className="ml-auto w-2 h-2 bg-white rounded-full animate-pulse" />
+              )}
+            </Link>
+          );
+        })}
       </nav>
 
-      {/* Sidebar overlay */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 transition-all duration-300",
-          sidebarOpen 
-            ? "pointer-events-auto bg-black/50 backdrop-blur-sm" 
-            : "pointer-events-none bg-transparent"
-        )}
-        aria-hidden={!sidebarOpen}
-        onClick={() => setSidebarOpen(false)}
-      />
-
-      {/* Sidebar panel */}
-      <aside
-        ref={sidebarRef}
-        className={cn(
-          "fixed top-0 left-0 bottom-0 z-50 w-80 max-w-full bg-background/95 backdrop-blur-xl border-r border-border/50 transform transition-transform duration-300 shadow-2xl",
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="sidebar-title"
-      >
-        {/* Sidebar Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-border/50 bg-gradient-to-r from-background to-background/80">
-          <h2 id="sidebar-title" className="text-xl font-bold bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-            Navigation
-          </h2>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setSidebarOpen(false)}
-              aria-label="Close menu"
-              className="p-2 rounded-xl hover:bg-white/10 transition-all duration-300 text-foreground/80 hover:text-foreground"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation Links */}
-        <nav className="flex-1 px-3 py-4 overflow-y-auto">
-          <ul className="flex flex-col gap-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.path);
-              return (
-                <li key={item.path}>
-                  <Link
-                    to={item.path}
-                    onClick={() => setSidebarOpen(false)}
-                    className={cn(
-                      "flex items-center gap-3 rounded-xl px-4 py-3 transition-all duration-300 group",
-                      active 
-                        ? "text-white bg-gradient-to-r from-blue-600 to-cyan-500 shadow-lg shadow-blue-500/25" 
-                        : "text-foreground/80 hover:text-foreground hover:bg-white/5"
-                    )}
-                  >
-                    <Icon className={cn(
-                      "w-5 h-5 flex-shrink-0 transition-transform duration-300",
-                      active ? "text-white" : "text-foreground/60 group-hover:text-foreground"
-                    )} />
-                    <span className="font-medium">{item.name}</span>
-                    
-                    {/* Animated arrow for hover effect */}
-                    {!active && (
-                      <div className="ml-auto opacity-0 group-hover:opacity-100 transform group-hover:translate-x-1 transition-all duration-300">
-                        <div className="w-1 h-1 bg-cyan-500 rounded-full" />
-                      </div>
-                    )}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        {/* Sidebar Footer */}
-        <div className="px-6 py-4 border-t border-border/50 bg-gradient-to-r from-background/80 to-background">
-          <Link
-            to="/contact"
-            onClick={() => setSidebarOpen(false)}
-            className="flex items-center gap-2 rounded-xl px-4 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white justify-center font-medium shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105 group"
+      <div className="mt-auto px-4 py-4 border-t border-border/50">
+        <div className="flex items-center justify-between space-x-3">
+          <ThemeSwitcher />
+          <Button
+            className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 group relative overflow-hidden"
+            asChild
           >
-            <Mail className="w-4 h-4 group-hover:scale-110 transition-transform duration-300" />
-            <span>Get In Touch</span>
-          </Link>
+            <Link to="/contact" className="flex items-center space-x-2">
+              <Mail className="w-4 h-4" />
+              <span>Contact</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+            </Link>
+          </Button>
         </div>
-      </aside>
-
-      {/* Add global styles for smooth scrolling */}
-      <style jsx global>{`
-        html {
-          scroll-behavior: smooth;
-        }
-        
-        /* Custom scrollbar for sidebar */
-        .overflow-y-auto::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-thumb {
-          background: rgba(59, 130, 246, 0.3);
-          border-radius: 2px;
-        }
-        
-        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
-          background: rgba(59, 130, 246, 0.5);
-        }
-      `}</style>
-    </>
+      </div>
+    </div>
   );
 };
 
-export default Navigation;
+const Navigation = () => {
+  const [open, setOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  // Prevent background scrolling when mobile drawer is open
+  useEffect(() => {
+    if (open) {
+      document.body
