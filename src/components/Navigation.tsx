@@ -180,7 +180,7 @@ const Navigation = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-lg font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
-                  LuxeHome
+                  iHome
                 </span>
                 <span className="text-xs text-foreground/60 -mt-1">
                   Luxury Real Estate
