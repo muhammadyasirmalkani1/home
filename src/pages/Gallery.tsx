@@ -52,7 +52,7 @@ const Gallery = () => {
       category: "cloud",
       views: "32K",
       uploadDate: "2024-01-10",
-      videoUrl: "/videos/cloud-architecture"
+      videoUrl: "https://www.youtube.com/embed/3IVCeyrFch4?si=uHKOuuDdVqu-szvc"
     },
     {
       id: 4,
