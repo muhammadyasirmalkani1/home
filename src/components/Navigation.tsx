@@ -14,30 +14,6 @@ import {
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
-const Navigation = () => {
-  const [open, setOpen] = useState(false);
-  const drawerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, []);
-
-  // Prevent background scrolling when mobile drawer is open
-  useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   return (
     <>
       {/* Top bar for mobile */}
