@@ -8,7 +8,7 @@ import About from "./pages/About";
 import Skills from "./pages/Skills";
 import Experience from "./pages/Experience";
 import Education from "./pages/Education";
-import Gallery from "./pages/Gallery";
+import VideoGallery from "./pages/VideoGallery";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
