@@ -13,58 +13,30 @@ import {
   Menu,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
-import { cn } from "@/lib/utils";
-import type { ComponentType, FC, SVGProps } from "react";
 
-type NavItem = {
-  name: string;
-  path: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-};
+/**
+ * Modern responsive navigation with a left sidebar for md+ and a slide-over drawer for mobile.
+ *
+ * - On md+ screens: persistent vertical sidebar on the left
+ * - On small screens: top bar with a hamburger button that opens a slide-over sidebar
+ *
+ * Accessibility:
+ * - ESC closes the mobile drawer
+ * - clicking the overlay closes the drawer
+ * - aria attributes for the drawer button and region
+ */
 
-const navItems: NavItem[] = [
-  { name: "Home", path: "/", icon: Home },
-  { name: "About", path: "/about", icon: User },
-  { name: "Skills", path: "/skills", icon: Code },
-  { name: "Experience", path: "/experience", icon: Briefcase },
-  { name: "Projects", path: "/projects", icon: Briefcase },
-  { name: "Education", path: "/education", icon: GraduationCap },
-  { name: "Gallery", path: "/gallery", icon: Video },
-  { name: "Pricing", path: "/pricing", icon: DollarSign },
-  { name: "Contact", path: "/contact", icon: Mail },
+const navItems = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/about", label: "About", icon: User },
+  { href: "/skills", label: "Skills", icon: Code },
+  { href: "/experience", label: "Experience", icon: Briefcase },
+  { href: "/education", label: "Education", icon: BookOpen },
+  { href: "/gallery", label: "Gallery", icon: Image },
+  { href: "/pricing", label: "Pricing", icon: Tag },
 ];
 
-const Navigation: FC = () => {
-  const location = useLocation();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const sidebarRef = useRef<HTMLDivElement | null>(null);
-
-  // Close on Escape and lock body scroll when open
-  useEffect(() => {
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setSidebarOpen(false);
-    }
-    document.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    if (sidebarOpen) document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
-  }, [sidebarOpen]);
-
-  // close when clicking outside sidebar
-  useEffect(() => {
-    function onClick(e: MouseEvent) {
-      if (!sidebarOpen) return;
-      if (sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
-        setSidebarOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", onClick);
-    return () => document.removeEventListener("mousedown", onClick);
-  }, [sidebarOpen]);
-
+const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
   return (
     <div className="flex flex-col h-full">
       <div className="px-6 py-6 flex items-center justify-between">
