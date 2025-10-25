@@ -13,7 +13,7 @@ const HeroSection = () => {
         </h1>
         
         <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto">
-          Explore luxury properties that redefine elegance and comfort in prime locations
+          Modern responsive navigation with a left sidebar for md+ and a slide-over drawer for mobile.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
