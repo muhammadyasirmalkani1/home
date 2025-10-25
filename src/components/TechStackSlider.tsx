@@ -44,10 +44,10 @@ const TechStackSlider = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-background/30 backdrop-blur-md border-y border-[hsl(var(--glass-border))]">
+    <section className="py-20 bg-background/30 backdrop-blur-md border-y border">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 bg-gradient-gold bg-clip-text text-transparent">
-          Powered By Modern Technology
+          Powered By Yasir M. CEO
         </h2>
         
         <div 
