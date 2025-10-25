@@ -44,7 +44,7 @@ const TechStackSlider = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-background/30">
+    <section className="py-20 bg-background/100">
       <div className="container mx-auto px-6">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 bg-gradient-gold bg-clip-text text-transparent">
           Powered By CEO Yasir M.
