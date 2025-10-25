@@ -9,7 +9,7 @@ const Index = () => {
   return (
     <div className="relative min-h-screen bg-background overflow-x-hidden">
       <VideoBackground />
-      <div className="relative z-10">
+      <div className="relative" style={{ zIndex: 10 }}>
         <Navigation />
         <main>
           <HeroSection />

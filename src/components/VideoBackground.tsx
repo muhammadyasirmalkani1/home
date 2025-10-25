@@ -13,7 +13,7 @@ const VideoBackground = () => {
   }, []);
 
   return (
-    <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
+    <div className="fixed inset-0 w-full h-full overflow-hidden" style={{ zIndex: 0 }}>
       <video
         ref={videoRef}
         autoPlay
@@ -21,14 +21,14 @@ const VideoBackground = () => {
         muted
         playsInline
         preload="auto"
-        className="absolute inset-0 w-full h-full object-cover scale-105 animate-[scale_20s_ease-in-out_infinite]"
-        style={{ filter: "brightness(1.2) contrast(1.15)" }}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ filter: "brightness(0.7) contrast(1.1)" }}
         onLoadedData={() => console.log("Video loaded successfully")}
         onError={(e) => console.error("Video error:", e)}
       >
         <source src="/background-video.mp4" type="video/mp4" />
       </video>
-      <div className="absolute inset-0 bg-gradient-overlay backdrop-blur-[0.5px]" />
+      <div className="absolute inset-0 bg-background/60" />
     </div>
   );
 };
