@@ -14,18 +14,6 @@ import {
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
-/**
- * Modern responsive navigation with a left sidebar for md+ and a slide-over drawer for mobile.
- *
- * - On md+ screens: persistent vertical sidebar on the left
- * - On small screens: top bar with a hamburger button that opens a slide-over sidebar
- *
- * Accessibility:
- * - ESC closes the mobile drawer
- * - clicking the overlay closes the drawer
- * - aria attributes for the drawer button and region
- */
-
 const navItems = [
   { href: "/", label: "Home", icon: Home },
   { href: "/about", label: "About", icon: User },
