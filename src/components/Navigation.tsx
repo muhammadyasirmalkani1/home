@@ -49,22 +49,24 @@ const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
 
   return (
     <div className="flex flex-col h-full">
+      {/* Header */}
       <div className="px-6 py-6 flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/25">
+          <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg shadow-amber-500/25">
             <Home className="w-5 h-5 text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-xl font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-              PORTFOLIO
+            <span className="text-xl font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+              LuxeHome
             </span>
             <span className="text-xs text-foreground/60 -mt-1">
-              Developer
+              Luxury Real Estate
             </span>
           </div>
         </div>
       </div>
 
+      {/* Navigation Links */}
       <nav className="px-2 py-4 space-y-1 overflow-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -74,9 +76,9 @@ const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
               key={item.href}
               to={item.href}
               onClick={onNavigate}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-300 group ${
                 active
-                  ? "text-white bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25"
+                  ? "text-white bg-gradient-to-r from-amber-500 to-orange-600 shadow-lg shadow-amber-500/25"
                   : "text-foreground/80 hover:text-foreground hover:bg-accent/50"
               }`}
             >
@@ -94,11 +96,12 @@ const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
         })}
       </nav>
 
+      {/* Footer */}
       <div className="mt-auto px-4 py-4 border-t border-border/50">
         <div className="flex items-center justify-between space-x-3">
           <ThemeSwitcher />
           <Button
-            className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300 group relative overflow-hidden"
+            className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 border-0 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-300 group relative overflow-hidden"
             asChild
           >
             <Link to="/contact" className="flex items-center space-x-2">
@@ -166,21 +169,21 @@ const Navigation = () => {
               aria-expanded={open}
               aria-controls="mobile-drawer"
               onClick={() => setOpen(true)}
-              className="p-2 rounded-xl hover:bg-accent/50 transition-all duration-300 text-foreground/80 hover:text-foreground"
+              className="p-2 rounded-lg hover:bg-accent/50 transition-all duration-300 text-foreground/80 hover:text-foreground"
             >
               <Menu className="w-6 h-6" />
             </button>
 
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+              <div className="w-8 h-8 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
                 <Home className="w-4 h-4 text-white" />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                  PORTFOLIO
+                <span className="text-lg font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+                  LuxeHome
                 </span>
                 <span className="text-xs text-foreground/60 -mt-1">
-                  Developer
+                  Luxury Real Estate
                 </span>
               </div>
             </div>
@@ -189,7 +192,7 @@ const Navigation = () => {
           <div className="flex items-center gap-3">
             <ThemeSwitcher />
             <Button
-              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+              className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 border-0 shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-300"
               asChild
             >
               <Link to="/contact" className="flex items-center space-x-2 text-sm">
@@ -231,22 +234,22 @@ const Navigation = () => {
           >
             <div className="px-4 py-4 flex items-center justify-between border-b border-border bg-gradient-to-r from-accent/10 to-transparent">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center shadow-lg">
                   <Home className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-                    PORTFOLIO
+                  <span className="text-lg font-bold bg-gradient-to-r from-amber-500 to-orange-600 bg-clip-text text-transparent">
+                    LuxeHome
                   </span>
                   <span className="text-xs text-foreground/60 -mt-1">
-                    Developer
+                    Luxury Real Estate
                   </span>
                 </div>
               </div>
               <button
                 aria-label="Close menu"
                 onClick={() => setOpen(false)}
-                className="p-2 rounded-xl hover:bg-accent/50 transition-all duration-300 text-foreground/80 hover:text-foreground"
+                className="p-2 rounded-lg hover:bg-accent/50 transition-all duration-300 text-foreground/80 hover:text-foreground"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -289,12 +292,12 @@ const Navigation = () => {
         }
         
         .overflow-auto::-webkit-scrollbar-thumb {
-          background: rgba(6, 182, 212, 0.3);
+          background: rgba(245, 158, 11, 0.3);
           border-radius: 2px;
         }
         
         .overflow-auto::-webkit-scrollbar-thumb:hover {
-          background: rgba(6, 182, 212, 0.5);
+          background: rgba(245, 158, 11, 0.5);
         }
 
         /* Content padding for desktop sidebar */
