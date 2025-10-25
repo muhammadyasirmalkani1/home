@@ -35,7 +35,7 @@ const StatsSection = () => {
           {stats.map((stat, index) => (
             <div 
               key={index}
-              className="group relative p-8 rounded-2xl bg-card/60 backdrop-blur-sm border border-border hover:border-primary transition-all duration-500 hover:shadow-card animate-fade-in"
+              className="group relative p-8 rounded-2xl bg-card/0 backdrop-blur-sm border border-border hover:border-primary transition-all duration-500 hover:shadow-card animate-fade-in"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <div className="flex flex-col items-center text-center space-y-4">
