@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Home, Building2, Star, Phone } from "lucide-react";
+import { Home } from "lucide-react";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 const Navigation = () => {
   return (
@@ -15,7 +16,7 @@ const Navigation = () => {
             </span>
           </div>
           
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             <a href="#properties" className="text-foreground hover:text-primary transition-colors">
               Properties
             </a>
@@ -25,6 +26,7 @@ const Navigation = () => {
             <a href="#about" className="text-foreground hover:text-primary transition-colors">
               About
             </a>
+            <ThemeSwitcher />
             <Button variant="default" className="bg-gradient-gold hover:shadow-glow transition-all">
               Contact Us
             </Button>
