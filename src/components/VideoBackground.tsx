@@ -1,4 +1,3 @@
-// components/VideoBackground.tsx
 import { useEffect, useRef, useState } from "react";
 
 const VideoBackground = () => {
