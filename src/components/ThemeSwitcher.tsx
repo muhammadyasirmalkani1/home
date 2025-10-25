@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const themes = [
-  { name: "Dark", value: "dark", color: "bg-slate-900" },
-  { name: "Light", value: "light", color: "bg-white" },
-  { name: "Blue", value: "blue", color: "bg-blue-600" },
-  { name: "Red", value: "red", color: "bg-red-600" },
-  { name: "Green", value: "green", color: "bg-emerald-600" },
-  { name: "Yellow", value: "yellow", color: "bg-yellow-500" },
+  { name: "Dark", value: "dark", color: "bg-slate-800", ring: "ring-slate-600" },
+  { name: "Light", value: "light", color: "bg-slate-100", ring: "ring-slate-300" },
+  { name: "Blue", value: "blue", color: "bg-blue-500", ring: "ring-blue-400" },
+  { name: "Red", value: "red", color: "bg-red-500", ring: "ring-red-400" },
+  { name: "Green", value: "green", color: "bg-emerald-500", ring: "ring-emerald-400" },
+  { name: "Yellow", value: "yellow", color: "bg-yellow-400", ring: "ring-yellow-300" },
 ];
 
 const ThemeSwitcher = () => {
@@ -38,27 +38,37 @@ const ThemeSwitcher = () => {
         <Button 
           variant="outline" 
           size="icon"
-          className="relative overflow-hidden group border-border/50 hover:border-primary/50 transition-all"
+          className="relative overflow-hidden group border-border hover:border-primary transition-all hover:shadow-glow"
         >
           <Palette className="h-5 w-5 text-foreground group-hover:text-primary transition-colors" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 bg-card/95 backdrop-blur-md border-border/50">
-        <div className="px-2 py-1.5 text-sm font-semibold text-muted-foreground">
-          Select Theme
+      <DropdownMenuContent 
+        align="end" 
+        className="w-52 bg-card border-border shadow-xl"
+      >
+        <div className="px-3 py-2 text-xs font-bold text-muted-foreground uppercase tracking-wider border-b border-border/50">
+          Choose Theme
         </div>
         {themes.map((theme) => (
           <DropdownMenuItem
             key={theme.value}
             onClick={() => changeTheme(theme.value)}
-            className="flex items-center gap-3 cursor-pointer hover:bg-muted/50 transition-colors"
+            className={`flex items-center gap-3 cursor-pointer my-1 px-3 py-2.5 ${
+              currentTheme === theme.value ? 'bg-primary/10' : ''
+            }`}
           >
-            <div className={`w-5 h-5 rounded-full ${theme.color} border-2 ${
-              currentTheme === theme.value ? 'border-primary ring-2 ring-primary/30' : 'border-border'
-            } transition-all`} />
-            <span className={currentTheme === theme.value ? 'text-primary font-semibold' : 'text-foreground'}>
+            <div className={`w-6 h-6 rounded-lg ${theme.color} ${
+              currentTheme === theme.value ? `${theme.ring} ring-2` : 'border-2 border-border'
+            } shadow-sm transition-all`} />
+            <span className={`font-medium ${
+              currentTheme === theme.value ? 'text-primary' : 'text-foreground'
+            }`}>
               {theme.name}
             </span>
+            {currentTheme === theme.value && (
+              <span className="ml-auto text-primary text-xs">✓</span>
+            )}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
