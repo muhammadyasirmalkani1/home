@@ -30,7 +30,7 @@ const Gallery = () => {
       category: "web",
       views: "24K",
       uploadDate: "2024-01-15",
-      videoUrl: "public/Video/Business.mp4"
+      videoUrl: "/Video/Business.mp4"
     },
     {
       id: 2,
@@ -41,7 +41,7 @@ const Gallery = () => {
       category: "design",
       views: "18K",
       uploadDate: "2024-01-12",
-      videoUrl: "/videos/mobile-design"
+      videoUrl: "/Video/Business.mp4"
     },
     {
       id: 3,
