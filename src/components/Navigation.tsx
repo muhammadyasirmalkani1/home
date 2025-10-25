@@ -14,6 +14,61 @@ import {
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 
+/**
+ * Modern responsive navigation with a left sidebar for md+ and a slide-over drawer for mobile.
+ *
+ * - On md+ screens: persistent vertical sidebar on the left
+ * - On small screens: top bar with a hamburger button that opens a slide-over sidebar
+ *
+ * Accessibility:
+ * - ESC closes the mobile drawer
+ * - clicking the overlay closes the drawer
+ * - aria attributes for the drawer button and region
+ */
+
+const navItems = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/about", label: "About", icon: User },
+  { href: "/skills", label: "Skills", icon: Code },
+  { href: "/experience", label: "Experience", icon: Briefcase },
+  { href: "/education", label: "Education", icon: BookOpen },
+  { href: "/gallery", label: "Gallery", icon: Image },
+  { href: "/pricing", label: "Pricing", icon: Tag },
+];
+
+const SidebarContent = ({ onNavigate }: { onNavigate?: () => void }) => {
+  return (
+    <div className="flex flex-col h-full">
+      <div className="px-6 py-6 flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <div className="w-10 h-10 bg-gradient-gold rounded-lg flex items-center justify-center animate-glow">
+            <Home className="w-6 h-6 text-primary-foreground" />
+          </div>
+          <span className="text-xl font-bold bg-gradient-gold bg-clip-text text-transparent">
+            LuxeHome
+          </span>
+        </div>
+      </div>
+
+      <nav className="px-2 py-4 space-y-1 overflow-auto">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={onNavigate}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg text-foreground hover:bg-accent/10 hover:text-primary transition-colors"
+            >
+              <Icon className="w-5 h-5" />
+              <span className="text-sm font-medium">{item.label}</span>
+            </a>
+          );
+        })}
+      </nav>
+
+      <div className="mt-auto px-4 py-4 border-t border-[hsl(var(--glass-border))]">
+        <div className="flex items-center justify-between space-x-3">
           <ThemeSwitcher />
           <Button
             variant="default"
