@@ -17,18 +17,30 @@ const Navigation = () => {
           </div>
           
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#properties" className="text-foreground hover:text-primary transition-colors">
-              Properties
+            <a href="/" className="text-foreground hover:text-primary transition-colors">
+              Home
             </a>
-            <a href="#featured" className="text-foreground hover:text-primary transition-colors">
-              Featured
-            </a>
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">
+            <a href="/about" className="text-foreground hover:text-primary transition-colors">
               About
             </a>
+            <a href="/skills" className="text-foreground hover:text-primary transition-colors">
+              Skills
+            </a>
+            <a href="/experience" className="text-foreground hover:text-primary transition-colors">
+              Experience
+            </a>
+            <a href="/education" className="text-foreground hover:text-primary transition-colors">
+              Education
+            </a>
+            <a href="/gallery" className="text-foreground hover:text-primary transition-colors">
+              Gallery
+            </a>
+            <a href="/pricing" className="text-foreground hover:text-primary transition-colors">
+              Pricing
+            </a>
             <ThemeSwitcher />
-            <Button variant="default" className="bg-gradient-gold hover:shadow-glow transition-all">
-              Contact Us
+            <Button variant="default" className="bg-gradient-gold hover:shadow-glow transition-all" asChild>
+              <a href="/contact">Contact</a>
             </Button>
           </div>
         </div>
