@@ -1,4 +1,3 @@
-import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -20,18 +19,22 @@ type NavItem = {
   icon: ComponentType<SVGProps<SVGSVGElement>>;
 };
 
-const links = [
-  { to: "/", label: "Home", end: true },
-  { to: "/about", label: "About" },
-  { to: "/skills", label: "Skills" },
-  { to: "/experience", label: "Experience" },
-  { to: "/education", label: "Education" },
-  { to: "/gallery", label: "Gallery" },
-  { to: "/pricing", label: "Pricing" },
-  { to: "/contact", label: "Contact" },
+const navItems: NavItem[] = [
+  { name: "Home", path: "/", icon: Home },
+  { name: "About", path: "/about", icon: User },
+  { name: "Skills", path: "/skills", icon: Code },
+  { name: "Experience", path: "/experience", icon: Briefcase },
+  { name: "Projects", path: "/projects", icon: Briefcase },
+  { name: "Education", path: "/education", icon: GraduationCap },
+  { name: "Gallery", path: "/gallery", icon: Video },
+  { name: "Pricing", path: "/pricing", icon: DollarSign },
+  { name: "Contact", path: "/contact", icon: Mail },
 ];
 
-const Sidebar = () => {
+const Sidebar: FC = () => {
+  const location = useLocation();
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <aside
       className={cn(
