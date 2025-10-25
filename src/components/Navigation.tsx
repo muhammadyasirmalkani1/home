@@ -129,4 +129,183 @@ const Navigation = () => {
   // Prevent background scrolling when mobile drawer is open
   useEffect(() => {
     if (open) {
-      document.body
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  // Close drawer when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (drawerRef.current && !drawerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  return (
+    <>
+      {/* Top bar for mobile */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 backdrop-blur-xl bg-background/95 border-b border-border">
+        <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button
+              aria-label="Open menu"
+              aria-expanded={open}
+              aria-controls="mobile-drawer"
+              onClick={() => setOpen(true)}
+              className="p-2 rounded-xl hover:bg-accent/50 transition-all duration-300 text-foreground/80 hover:text-foreground"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
+
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                <Home className="w-4 h-4 text-white" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                  PORTFOLIO
+                </span>
+                <span className="text-xs text-foreground/60 -mt-1">
+                  Developer
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <ThemeSwitcher />
+            <Button
+              className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 border-0 shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all duration-300"
+              asChild
+            >
+              <Link to="/contact" className="flex items-center space-x-2 text-sm">
+                <Mail className="w-4 h-4" />
+                <span>Contact</span>
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Sidebar for md+ (persistent) */}
+      <aside className="hidden md:fixed md:inset-y-0 md:left-0 md:w-64 md:z-40 md:flex md:flex-col backdrop-blur-xl bg-background/95 border-r border-border">
+        <div className="h-full overflow-hidden">
+          <SidebarContent />
+        </div>
+      </aside>
+
+      {/* Mobile slide-over drawer */}
+      {open && (
+        <div
+          className="fixed inset-0 z-50 md:hidden"
+          aria-hidden={!open}
+        >
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"
+            onClick={() => setOpen(false)}
+          />
+
+          {/* Drawer panel */}
+          <div
+            id="mobile-drawer"
+            ref={drawerRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Navigation menu"
+            className="absolute left-0 top-0 bottom-0 w-80 max-w-full bg-background/95 backdrop-blur-xl shadow-2xl border-r border-border animate-slide-in"
+          >
+            <div className="px-4 py-4 flex items-center justify-between border-b border-border bg-gradient-to-r from-accent/10 to-transparent">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <Home className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-lg font-black bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                    PORTFOLIO
+                  </span>
+                  <span className="text-xs text-foreground/60 -mt-1">
+                    Developer
+                  </span>
+                </div>
+              </div>
+              <button
+                aria-label="Close menu"
+                onClick={() => setOpen(false)}
+                className="p-2 rounded-xl hover:bg-accent/50 transition-all duration-300 text-foreground/80 hover:text-foreground"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="h-full">
+              <SidebarContent onNavigate={() => setOpen(false)} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Spacer for topbar on mobile */}
+      <div className="md:hidden h-16" />
+
+      {/* Global styles */}
+      <style jsx global>{`
+        @keyframes slideIn {
+          from { 
+            transform: translateX(-100%); 
+            opacity: 0; 
+          }
+          to { 
+            transform: translateX(0); 
+            opacity: 1; 
+          }
+        }
+        
+        .animate-slide-in {
+          animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom scrollbar for sidebar */
+        .overflow-auto::-webkit-scrollbar {
+          width: 4px;
+        }
+        
+        .overflow-auto::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        
+        .overflow-auto::-webkit-scrollbar-thumb {
+          background: rgba(6, 182, 212, 0.3);
+          border-radius: 2px;
+        }
+        
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+          background: rgba(6, 182, 212, 0.5);
+        }
+
+        /* Content padding for desktop sidebar */
+        @media (min-width: 768px) {
+          main {
+            margin-left: 16rem;
+          }
+        }
+      `}</style>
+    </>
+  );
+};
+
+export default Navigation;
