@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import Navbar from "@/components/Navbar";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -29,7 +29,7 @@ const Pricing = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navbar />
       <main className="container mx-auto px-6 pt-24 pb-12">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">

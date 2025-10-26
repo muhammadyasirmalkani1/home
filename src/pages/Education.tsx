@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import Navbar from "@/components/Navbar";
 import { GraduationCap } from "lucide-react";
 
 const Education = () => {
@@ -26,7 +26,7 @@ const Education = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navbar />
       <main className="container mx-auto px-6 pt-24 pb-12">
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center gap-3 mb-12">

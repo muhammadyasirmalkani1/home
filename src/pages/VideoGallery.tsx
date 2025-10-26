@@ -4,6 +4,7 @@ import { Play, X } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar";
 
 const VideoGallery = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -156,6 +157,7 @@ const VideoGallery = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden text-white">
+      <Navbar />
       {/* 3D Animated Background */}
       <div className="background-3d">
         <div className="orb" />

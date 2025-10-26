@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import Navbar from "@/components/Navbar";
 import { Code2, Palette, Database, Rocket } from "lucide-react";
 
 const Skills = () => {
@@ -27,7 +27,7 @@ const Skills = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navbar />
       <main className="container mx-auto px-6 pt-24 pb-12">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-foreground mb-12">Skills & Expertise</h1>
