@@ -141,6 +141,56 @@ const Navigation = () => {
     };
   }, [open]);
 
+  // Inject global animation styles
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `
+      @keyframes slideIn {
+        from { 
+          transform: translateX(-100%); 
+          opacity: 0; 
+        }
+        to { 
+          transform: translateX(0); 
+          opacity: 1; 
+        }
+      }
+      
+      .animate-slide-in {
+        animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Custom scrollbar for sidebar */
+      .overflow-auto::-webkit-scrollbar {
+        width: 4px;
+      }
+      
+      .overflow-auto::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      
+      .overflow-auto::-webkit-scrollbar-thumb {
+        background: rgba(245, 158, 11, 0.3);
+        border-radius: 2px;
+      }
+      
+      .overflow-auto::-webkit-scrollbar-thumb:hover {
+        background: rgba(245, 158, 11, 0.5);
+      }
+
+      /* Content padding for desktop sidebar */
+      @media (min-width: 768px) {
+        main {
+          margin-left: 16rem;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   // Close drawer when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -264,49 +314,6 @@ const Navigation = () => {
 
       {/* Spacer for topbar on mobile */}
       <div className="md:hidden h-16" />
-
-      {/* Global styles */}
-      <style jsx global>{`
-        @keyframes slideIn {
-          from { 
-            transform: translateX(-100%); 
-            opacity: 0; 
-          }
-          to { 
-            transform: translateX(0); 
-            opacity: 1; 
-          }
-        }
-        
-        .animate-slide-in {
-          animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Custom scrollbar for sidebar */
-        .overflow-auto::-webkit-scrollbar {
-          width: 4px;
-        }
-        
-        .overflow-auto::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        
-        .overflow-auto::-webkit-scrollbar-thumb {
-          background: rgba(245, 158, 11, 0.3);
-          border-radius: 2px;
-        }
-        
-        .overflow-auto::-webkit-scrollbar-thumb:hover {
-          background: rgba(245, 158, 11, 0.5);
-        }
-
-        /* Content padding for desktop sidebar */
-        @media (min-width: 768px) {
-          main {
-            margin-left: 16rem;
-          }
-        }
-      `}</style>
     </>
   );
 };
