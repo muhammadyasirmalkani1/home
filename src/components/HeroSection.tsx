@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Search } from "lucide-react";
 import TechStackSlider from "@/components/TechStackSlider";
@@ -19,19 +20,25 @@ const HeroSection = () => {
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
           <Button 
+            asChild
             size="lg"
             className="bg-gradient-gold hover:shadow-glow transition-all text-lg px-8 py-6"
           >
-            View Properties
-            <ArrowRight className="ml-2 w-5 h-5" />
+            <Link to="/properties">
+              View Properties
+              <ArrowRight className="ml-2 w-5 h-5" />
+            </Link>
           </Button>
           <Button 
+            asChild
             size="lg"
             variant="outline"
             className="border-primary text-primary hover:bg-primary hover:text-primary-foreground text-lg px-8 py-6"
           >
-            <Search className="mr-2 w-5 h-5" />
-            Search Homes
+            <Link to="/properties">
+              <Search className="mr-2 w-5 h-5" />
+              Search Homes
+            </Link>
           </Button>
         </div>
 
