@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Search } from "lucide-react";
+import TechStackSlider from "@/components/TechStackSlider";
 
 const HeroSection = () => {
   return (
@@ -32,6 +33,11 @@ const HeroSection = () => {
             <Search className="mr-2 w-5 h-5" />
             Search Homes
           </Button>
+        </div>
+
+        {/* Logo Slider Section */}
+        <div className="pt-16">
+          <TechStackSlider />
         </div>
 
         <div className="grid grid-cols-3 gap-8 pt-12 max-w-3xl mx-auto">

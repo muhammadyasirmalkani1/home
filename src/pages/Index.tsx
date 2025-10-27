@@ -3,7 +3,6 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FeaturedProperties from "@/components/FeaturedProperties";
 import StatsSection from "@/components/StatsSection";
-import TechStackSlider from "@/components/TechStackSlider";
 
 const Index = () => {
   return (
@@ -13,7 +12,6 @@ const Index = () => {
         <Navbar />
         <main>
           <HeroSection />
-          <TechStackSlider />
           <StatsSection />
           <FeaturedProperties />
         </main>
