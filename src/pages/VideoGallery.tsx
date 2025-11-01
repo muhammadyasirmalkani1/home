@@ -1,88 +1,14 @@
-"use client";
-
-import { Play, X } from "lucide-react";
+import { Play, X, Filter } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import VideoBackground from "@/components/VideoBackground";
 
 const VideoGallery = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-
-  // Inject 3D background animation CSS
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.innerHTML = `
-      /* === 3D Background Animation === */
-      .background-3d {
-        position: fixed;
-        inset: 0;
-        overflow: hidden;
-        z-index: -1;
-        background: radial-gradient(circle at 50% 50%, #0a0a0f 0%, #050507 100%);
-        perspective: 1000px;
-      }
-
-      .orb {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(100px);
-        opacity: 0.6;
-        animation: float 20s infinite ease-in-out alternate;
-        transform-style: preserve-3d;
-      }
-
-      .orb:nth-child(1) {
-        width: 600px;
-        height: 600px;
-        top: -100px;
-        left: -200px;
-        background: radial-gradient(circle, rgba(124,58,237,0.6) 0%, rgba(6,182,212,0.3) 100%);
-        animation-delay: 0s;
-      }
-
-      .orb:nth-child(2) {
-        width: 500px;
-        height: 500px;
-        bottom: -150px;
-        right: -100px;
-        background: radial-gradient(circle, rgba(236,72,153,0.4) 0%, rgba(59,130,246,0.3) 100%);
-        animation-delay: 2s;
-      }
-
-      .orb:nth-child(3) {
-        width: 700px;
-        height: 700px;
-        top: 30%;
-        left: 40%;
-        background: radial-gradient(circle, rgba(34,211,238,0.4) 0%, rgba(16,185,129,0.3) 100%);
-        animation-delay: 4s;
-      }
-
-      @keyframes float {
-        0% { transform: translate3d(0px, 0px, 0px) rotate(0deg); }
-        50% { transform: translate3d(40px, -40px, 80px) rotate(180deg); }
-        100% { transform: translate3d(-60px, 60px, -80px) rotate(360deg); }
-      }
-
-      .gradient-text {
-        background: linear-gradient(90deg, #7C3AED, #06B6D4);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      .glass-card {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-    `;
-    document.head.appendChild(style);
-    return () => {
-      document.head.removeChild(style);
-    };
-  }, []);
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   const videoSteps = [
     {
@@ -156,6 +82,12 @@ const VideoGallery = () => {
     }
   };
 
+  const categories = ["All", "Beginner", "Intermediate", "Advanced", "Expert"];
+  
+  const filteredVideos = selectedCategory === "All" 
+    ? videoSteps 
+    : videoSteps.filter(video => video.category === selectedCategory);
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       <VideoBackground />
@@ -166,21 +98,43 @@ const VideoGallery = () => {
       <div className="relative z-10 py-20">
         <div className="container mx-auto px-4">
           {/* Header */}
-          <div className="text-center mb-16 space-y-4">
+          <div className="text-center mb-16 space-y-4 animate-fade-in">
             <h1 className="text-5xl md:text-6xl font-bold">
-              <span className="gradient-text">Video Gallery</span>
+              <span className="bg-gradient-gold bg-clip-text text-transparent">
+                Video Gallery
+              </span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Follow our step-by-step video tutorials to master every aspect
             </p>
           </div>
 
+          {/* Category Filter */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-12 animate-fade-in">
+            <Filter className="w-5 h-5 text-muted-foreground" />
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={selectedCategory === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => setSelectedCategory(category)}
+                className="transition-all"
+              >
+                {category}
+              </Button>
+            ))}
+          </div>
+
           {/* Video Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {videoSteps.map((video) => (
+            {filteredVideos.map((video, index) => (
               <Card
                 key={video.id}
-                className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden bg-black/40 backdrop-blur-md border border-white/10"
+                className="group cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden bg-background/60 backdrop-blur-sm border-border/50 animate-fade-in"
+                style={{
+                  animationDelay: `${index * 100}ms`,
+                  animationFillMode: "both",
+                }}
                 onClick={() => video.videoUrl && setSelectedVideo(video.videoUrl)}
               >
                 <CardContent className="p-0">
@@ -192,11 +146,11 @@ const VideoGallery = () => {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-purple-600/90 group-hover:bg-purple-500 flex items-center justify-center transition-all duration-300 group-hover:scale-110">
-                        <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                      <div className="w-16 h-16 rounded-full bg-primary/90 group-hover:bg-primary flex items-center justify-center transition-all duration-300 group-hover:scale-110">
+                        <Play className="w-8 h-8 text-primary-foreground ml-1" fill="currentColor" />
                       </div>
                     </div>
-                    <div className="absolute bottom-3 right-3 bg-black/80 px-2 py-1 rounded text-xs font-medium">
+                    <div className="absolute bottom-3 right-3 bg-background/90 backdrop-blur-sm px-2 py-1 rounded text-xs font-medium border border-border/50">
                       {video.duration}
                     </div>
                   </div>
@@ -207,14 +161,14 @@ const VideoGallery = () => {
                       <Badge className={getCategoryColor(video.category)}>
                         {video.category}
                       </Badge>
-                      <span className="text-sm text-gray-400">
+                      <span className="text-sm text-muted-foreground">
                         Video {video.id}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold group-hover:text-purple-400 transition-colors">
+                    <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
                       {video.title}
                     </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed">
+                    <p className="text-muted-foreground text-sm leading-relaxed">
                       {video.description}
                     </p>
                   </div>
@@ -224,8 +178,8 @@ const VideoGallery = () => {
           </div>
 
           {/* Learning Path */}
-          <div className="mt-20 p-8 glass-card rounded-lg text-center">
-            <h2 className="text-3xl font-bold mb-6 gradient-text">
+          <div className="mt-20 p-8 bg-background/60 backdrop-blur-sm rounded-lg border border-border/50 text-center animate-fade-in">
+            <h2 className="text-3xl font-bold mb-6 bg-gradient-gold bg-clip-text text-transparent">
               Your Learning Path
             </h2>
             <div className="flex flex-col md:flex-row items-center justify-center gap-4">
@@ -249,12 +203,14 @@ const VideoGallery = () => {
                 className="relative w-full max-w-5xl aspect-video bg-black rounded-lg overflow-hidden shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
-                <button
+                <Button
                   onClick={() => setSelectedVideo(null)}
-                  className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-black/70 hover:bg-black/90 flex items-center justify-center transition"
+                  variant="ghost"
+                  size="icon"
+                  className="absolute top-4 right-4 z-10 rounded-full bg-background/90 hover:bg-background backdrop-blur-sm"
                 >
-                  <X className="w-5 h-5 text-white" />
-                </button>
+                  <X className="w-5 h-5" />
+                </Button>
                 <iframe
                   width="100%"
                   height="100%"
