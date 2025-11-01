@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+import VideoBackground from "@/components/VideoBackground";
 
 const VideoGallery = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -156,13 +157,10 @@ const VideoGallery = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-hidden text-white">
-      <Navbar />
-      {/* 3D Animated Background */}
-      <div className="background-3d">
-        <div className="orb" />
-        <div className="orb" />
-        <div className="orb" />
+    <div className="relative min-h-screen overflow-hidden">
+      <VideoBackground />
+      <div className="relative z-10">
+        <Navbar />
       </div>
 
       <div className="relative z-10 py-20">
