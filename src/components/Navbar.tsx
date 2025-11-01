@@ -12,6 +12,7 @@ import {
   Mail,
   Menu,
   X,
+  FileText,
 } from "lucide-react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/experience", label: "Experience", icon: Briefcase },
   { href: "/education", label: "Education", icon: BookOpen },
   { href: "/gallery", label: "Gallery", icon: Image },
+  { href: "/blog", label: "Blog", icon: FileText },
   { href: "/pricing", label: "Pricing", icon: Tag },
 ];
 

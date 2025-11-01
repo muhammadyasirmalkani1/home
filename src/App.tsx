@@ -12,6 +12,8 @@ import VideoGallery from "./pages/VideoGallery";
 import Pricing from "./pages/Pricing";
 import Contact from "./pages/Contact";
 import Properties from "./pages/Properties";
+import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +31,8 @@ const App = () => (
           <Route path="/experience" element={<Experience />} />
           <Route path="/education" element={<Education />} />
           <Route path="/gallery" element={<VideoGallery />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:articleId" element={<BlogArticle />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/properties" element={<Properties />} />
